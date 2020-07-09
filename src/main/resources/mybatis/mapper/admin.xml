@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clive.springtree.dao.AdminDao">
+    <resultMap id="AdminResultMap" type="com.clive.springtree.pojo.Admin">
+        <id column="id" property="id"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="create_at" property="createAt"></result>
+        <result column="login_last" property="loginLast"></result>
+     </resultMap>
+    <sql id="selectAll">
+    select id,user_name,phone,password,email,create_at,login_last from user_admin
+    </sql>
+    <select id="getAdmin" parameterType="String" resultMap="AdminResultMap" >
+        <include refid="selectAll"></include>
+        where user_name=#{userName}
+    </select>
+    <insert id="insertAdmin"  parameterType="com.clive.springtree.pojo.Admin" useGeneratedKeys="true" keyProperty="id" >
+        insert into user_admin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null and id!=''">
+                id,
+            </if>
+            <if test="userName!=null and userName!=''">
+                user_name ,
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone,
+            </if>
+            <if test="password!=null and password!=''">
+                password,
+            </if>
+            <if test="email!=null and email!=''">
+                email,
+            </if>
+            <if test="createAt!=null ">
+                create_at ,
+            </if>
+            <if test="loginLast!=null ">
+                login_last ,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!=null and id!=''">
+                #{id},
+            </if>
+            <if test="userName!=null and userName!=''">
+                #{userName},
+            </if>
+            <if test="phone!=null and phone!=''">
+                #{phone},
+            </if>
+            <if test="password!=null and password!=''">
+                #{password},
+            </if>
+            <if test="email!=null and email!=''">
+                #{email},
+            </if>
+            <if test="createAt!=null ">
+                #{createAt},
+            </if>
+            <if test="loginLast!=null ">
+                #{loginLast},
+            </if>
+        </trim>
+    </insert>
+</mapper>
